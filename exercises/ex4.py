@@ -1,4 +1,4 @@
-################## While Loop #####################
+################## exercise 4 #####################
 network_devices = ["router1", "router2", "core_router1", "edge_router1", "firewall"]
 ip_base = "10.99.1."
 device_count = len(network_devices)
