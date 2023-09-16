@@ -20,6 +20,15 @@ Telia = {
     "contact": "abuse@tet.lv"
 }
 
+#creating a set to collect unique subnet masks in ISP
+unique_subnet_masks = set()
+
+unique_subnet_masks.add(LVRTC["prefixes"].split("/")[1])
+unique_subnet_masks.add(TET["prefixes"].split("/")[1])
+unique_subnet_masks.add(Telia["prefixes"].split("/")[1])
+
+print(f"Unique subnet masks in ISP: {unique_subnet_masks}")
+
 #convert dictionaries in to list
 Data = [LVRTC, TET, Telia]
 print("Current ISP data:")
@@ -51,13 +60,12 @@ new_asn_sorted = sorted(set(new_asn_sorted))
 print(f"sorted BGP AS data: {new_asn_sorted}")
 
 #add prefix to ISP org
-ISP_name = input(print("Input ISP: "))
-PREFIX = input(print("Input new prefix: "))
-new_prefixes = (PREFIX)
-new_prefixes = list(new_prefixes)
+ISP_name = input("Input ISP: ")
+PREFIX = input("Input new prefix: ")
+
 for new_isp in Data:
     if new_isp["name"] == ISP_name:
-        new_isp["prefixes"] == new_prefixes
+        new_isp["prefixes"] = PREFIX
 print("NEW ISP DATA:")
 for new_isp in Data:
     print(f"""
@@ -67,3 +75,12 @@ for new_isp in Data:
     Contact: {new_isp['contact']}
     """)
 
+# Convert dictionaries to tuples
+tuple_LVRTC = tuple(LVRTC.items())
+tuple_TET = tuple(TET.items())
+tuple_Telia = tuple(Telia.items())
+
+# Print the tuples
+print("Tuple LVRTC:", tuple_LVRTC)
+print("Tuple TET:", tuple_TET)
+print("Tuple Telia:", tuple_Telia)
