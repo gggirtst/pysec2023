@@ -5,21 +5,17 @@ user_vlan_id = input("Set vlan (for example 'Vlan20'): ")
 user_interface = input("Set interface for Vlan trunking: ")
 
 def is_valid_ip(ip_str):
-    # Split the IP address into octets
     octets = ip_str.split('.')
     
-    # Check if there are exactly 4 octets
     if len(octets) != 4:
         return False
     
     try:
-        # Check if each octet is an integer in the range [0, 255]
         for octet in octets:
             octet_int = int(octet)
             if octet_int < 0 or octet_int > 255:
                 return False
     except ValueError:
-        # If any octet is not an integer, it's not a valid IP address
         return False
     
     return True
