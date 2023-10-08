@@ -1,3 +1,4 @@
+# EXERCISE 6 and 7 !!!
 import ex6_configuration
 
 user_hostname = input("Enter hostname: ")
@@ -20,6 +21,7 @@ def is_valid_ip(ip_str):
     
     return True
 
+# Exercise 7 for EXCEPTIONS!
 while True:
     user_ip = input("Set IP address for Vlan interface: ")
     user_gateway = input("Set default gateway for the device: ")
