@@ -1,0 +1,51 @@
+#pip install python-gnupg - Install python-gnupg
+#pip show python-gnupg - validate the install
+#which gpg - locate the path
+
+import gnupg
+import os
+
+# Set up GPG home directory
+gpg_home = 'PGP/.gnupg'
+
+if not os.path.exists(gpg_home): #If the directory doesn't exist, it will create one defined by 'gpg_home'
+    os.makedirs(gpg_home)
+
+gpg = gnupg.GPG(gnupghome=gpg_home, gpgbinary='/opt/homebrew/bin/gpg') # MAC OS had to use homebrew to install gpg and had to specify the gpgbinary directory from which gpg
+gpg.encoding = 'utf-8'
+
+# Generate GPG key
+input_data = gpg.gen_key_input(
+    name_email='your@email.com',    # insert your email
+    passphrase='your_passphrase',   # create your passphrase
+    key_type='RSA',
+    key_length=1024
+)
+
+key = gpg.gen_key(input_data)
+print(f'Generated Key: {key}') # Print fingerprint of the generated KEY
+
+# EXPORT PUBLIC KEY:
+public_key_path = os.path.join('PGP', 'my_public_key.asc') #Define path to store the public key in the PGP folder
+
+public_keys = gpg.export_keys(key.fingerprint)
+with open(public_key_path, 'w') as f:
+    f.write(public_keys)
+print(f"Public key exported to '{public_key_path}'")
+
+# Encrypt the messege
+encrypted_message_path = os.path.join('PGP', 'encrypted_message.asc') # Define path to store the encrypted message in the PGP folder
+
+recipient_key = 'your@email.com'  # insert your email. Encryption for myself, for demonstration purposes
+message = "This is a secret message." # create your message to encrypt
+encrypted_data = gpg.encrypt(message, recipient_key)
+with open(encrypted_message_path, 'w') as f:
+    f.write(str(encrypted_data))
+print(f"Message encrypted and saved to {encrypted_message_path}")
+
+# Decrypt the Message
+with open(encrypted_message_path, 'r') as f:
+    encrypted_message = f.read()
+decrypted_data = gpg.decrypt(encrypted_message, passphrase='your_passphrase') # enter your passphrase for decryption
+print(f"Decrypted Message: {decrypted_data}")
+
